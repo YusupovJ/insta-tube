@@ -26,16 +26,17 @@ const youtube = async (ctx: MyContext, url: string) => {
 		const videoInfo = response.data[0] as IYoutube;
 
 		const video = videoInfo.urls.find((video) => video.itag === "22" || video.itag === "18");
-		const caption = `<b>${videoInfo.meta.title}</b>\n\n@insta_tube_save_bot`;
+		const caption = `<b>${videoInfo?.meta?.title}</b>\n\n@insta_tube_save_bot`;
 		const videoUrl = video?.url || "";
 
 		try {
 			await sendVideo(ctx, videoUrl, caption);
 		} catch (error) {
-			const preview = videoInfo.meta.pictureUrl;
+			const preview = videoInfo.pictureUrl;
 			await sendLink(ctx, videoUrl, caption, preview);
 		}
 	} catch (error) {
+		console.log(error);
 		await ctx.reply("Something went wrong :(");
 	}
 };

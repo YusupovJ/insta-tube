@@ -53,6 +53,7 @@ bot.on("message::url", async (ctx) => {
 });
 
 if (process.env.NODE_ENV === "DEVELOPMENT") {
+	bot.api.deleteWebhook();
 	const runner = run(bot);
 
 	if (runner.isRunning()) {

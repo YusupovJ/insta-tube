@@ -32,8 +32,8 @@ export interface IYoutube {
 		sourceUrl: "https://www.youtube.com/watch?v=a9LDPn-MO4I";
 		duration: "1:00";
 		tags: "8K,VIDEO,UHD,SUPER,HI-VISION,ULTRA,HIGH,DEFINITION";
-		pictureUrl: "https://i.ytimg.com/vi/a9LDPn-MO4I/hqdefault.jpg";
 	};
+	pictureUrl: "https://i.ytimg.com/vi/a9LDPn-MO4I/hqdefault.jpg";
 	videoQuality: string[];
 	service: string;
 }
