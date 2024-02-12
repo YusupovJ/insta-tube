@@ -3,61 +3,37 @@ import { Context } from "grammy";
 
 export type MyContext = Context & AutoChatActionFlavor;
 
-export interface IUrls {
-    extension: string;
-    name: string;
-    url: string;
-    urlDownloadable: string;
-    urlWrapped: string;
-}
-
 export interface IInstagram {
-    meta: {
-        sourceUrl: string;
-        title: string;
-    };
-    pictureUrl: string;
-    pictureUrlWrapped: string;
-    service: string;
-    urls: IUrls[];
+	thumb: string;
+	link: string;
+	type: string;
+	title: string;
 }
 
 export interface IFormat {
-    itag: number;
-    url: string;
-    mimeType: string;
-    bitrate: number0;
-    width: number;
-    height: number;
-    lastModified: string;
-    quality: string;
-    fps: number;
-    qualityLabel: string;
-    projectionType: string;
-    audioQuality: string;
-    approxDurationMs: string;
-    audioSampleRate: string;
-    audioChannels: number;
+	url: string;
+	name: string;
+	subName: string;
+	extension: string;
+	quality: string;
+	qualityNumber: number;
+	audio: boolean;
+	itag: string;
+	videoCodec: string;
+	audioCodec: string;
+	isBundle: boolean;
 }
 
 export interface IYoutube {
-    status: string;
-    id: string;
-    title: string;
-    lengthSeconds: string;
-    keywords: string[];
-    channelTitle: string;
-    channelId: string;
-    description: string;
-    thumbnail: { url: string; width: number; height: number }[];
-    allowRatings: booelan;
-    viewCount: string;
-    isPrivate: boolean;
-    isUnpluggedCorpus: boolean;
-    isLiveContent: boolean;
-    expiresInSeconds: string;
-    formats: IFormat[];
-    adaptiveFormats: IFormat[];
-    pmReg: string;
-    isProxied: boolean;
+	resourceId: string;
+	urls: IFormat[];
+	meta: {
+		title: "UHDTV TEST 8K VIDEO.mp4";
+		sourceUrl: "https://www.youtube.com/watch?v=a9LDPn-MO4I";
+		duration: "1:00";
+		tags: "8K,VIDEO,UHD,SUPER,HI-VISION,ULTRA,HIGH,DEFINITION";
+		pictureUrl: "https://i.ytimg.com/vi/a9LDPn-MO4I/hqdefault.jpg";
+	};
+	videoQuality: string[];
+	service: string;
 }
