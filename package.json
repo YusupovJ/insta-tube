@@ -4,9 +4,9 @@
 	"description": "yt video download",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon ./src/bot.ts",
 		"build": "tsc",
-		"start": "node ./dist/bot.js"
+		"start": "node dist/bot.js",
+		"dev": "nodemon src/bot.ts"
 	},
 	"keywords": [
 		"api"

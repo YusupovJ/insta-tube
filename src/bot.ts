@@ -37,9 +37,7 @@ setCommands();
 bot.catch(handleError);
 
 bot.command("start", async (ctx) => {
-	await ctx.reply("Please, send link of the video 🎥", {
-		reply_markup: new Keyboard().text("https://www.youtube.com/shorts/vRI-ihe7jE8").resized(),
-	});
+	await ctx.reply("Please, send link of the video 🎥");
 });
 
 bot.command("help", async (ctx) => {
