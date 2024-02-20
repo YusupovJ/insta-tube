@@ -33,10 +33,9 @@ const mediaMerger = (audioInput: string, videoInput: string, ctx: MyContext, id:
 		.addInput(audioInput)
 		.format("mp4")
 		.outputOptions("-movflags frag_keyframe+empty_moov")
-		.on("end", () => {
-			ctx.replyWithVideo(new InputFile(mergeOutput)).then(async (message) => {
-				await FileRepository.add(message.video.file_id, mergeFileName);
-			});
+		.on("end", async () => {
+			const message = await ctx.replyWithVideo(new InputFile(mergeOutput));
+			await FileRepository.add(message.video.file_id, mergeFileName);
 		})
 		.on("error", (err) => {
 			console.log(err);
@@ -51,7 +50,7 @@ const qualityMenu = new Menu<MyContext>("qualities").dynamic((ctx, range) => {
 
 	if (audio && videos && url) {
 		const id = ytdl.getURLVideoID(url);
-		const output = path.join(__dirname, "..", "uploads");
+		const output = path.resolve("public");
 
 		Object.keys(videos).forEach((qualityLabel, index) => {
 			const quality = qualityLabel.split(" ")[0];
@@ -89,12 +88,13 @@ const qualityMenu = new Menu<MyContext>("qualities").dynamic((ctx, range) => {
 						await ctx.replyWithVideo(file.fileId);
 					} else if (fs.existsSync(existAudio)) {
 						const { videoOutput, videoStream } = await downloadVideo(output, url, video, id, quality);
+
 						videoStream.on("close", () => {
 							mediaMerger(existAudio, videoOutput, ctx, id, output, quality);
 						});
 					} else {
-						const { videoOutput, videoStream } = await downloadVideo(output, url, video, id, quality);
 						const { audioOutput, audioStream } = await downloadAudio(output, url, audio, id);
+						const { videoOutput, videoStream } = await downloadVideo(output, url, video, id, quality);
 
 						audioStream.on("close", () => {
 							videoStream.on("close", () => {
@@ -114,7 +114,11 @@ const qualityMenu = new Menu<MyContext>("qualities").dynamic((ctx, range) => {
 
 			if (fs.existsSync(existAudio)) {
 				const file = await FileRepository.getByFileName(audioFileName);
-				await ctx.replyWithAudio(file.fileId);
+				if (file?.fileId) {
+					await ctx.replyWithAudio(file.fileId);
+				} else {
+					await ctx.replyWithAudio(new InputFile(existAudio));
+				}
 				return;
 			}
 

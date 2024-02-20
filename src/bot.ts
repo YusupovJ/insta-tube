@@ -9,6 +9,7 @@ import { autoChatAction } from "@grammyjs/auto-chat-action";
 import { MyContext, SessionData } from "./types";
 import express from "express";
 import qualityMenu from "./menus/qualityMenu";
+import path from "path";
 
 dotenv.config();
 const token = process.env.TELEGRAM_BOT_API as string;

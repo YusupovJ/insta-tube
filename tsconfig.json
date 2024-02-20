@@ -1,5 +1,5 @@
 {
-	"include": ["./src/types.d.ts", "./src/**/*", "./src/uploads/.gitkeep"],
+	"include": ["./src/types.d.ts", "./src/**/*", "uploads/.gitkeep"],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"target": "es2016",

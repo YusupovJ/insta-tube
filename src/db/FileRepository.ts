@@ -5,7 +5,7 @@ class FileRepository {
 	fileUrl: string;
 
 	constructor() {
-		this.fileUrl = path.join(__dirname, "files.json");
+		this.fileUrl = path.resolve("public", "files.json");
 	}
 
 	async getByFileName(fileName: string) {
