@@ -48,9 +48,9 @@ const mediaMerger = (audioInput: string, videoInput: string, ctx: MyContext, id:
 
 const qualityMenu = new Menu<MyContext>("qualities").dynamic((ctx, range) => {
 	const { audio, videos, url } = ctx.session;
-	const id = ytdl.getURLVideoID(url);
 
-	if (audio && videos) {
+	if (audio && videos && url) {
+		const id = ytdl.getURLVideoID(url);
 		const output = path.join(__dirname, "..", "uploads");
 
 		Object.keys(videos).forEach((qualityLabel, index) => {
