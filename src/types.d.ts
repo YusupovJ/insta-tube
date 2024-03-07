@@ -12,8 +12,6 @@ export interface IInstagram {
 }
 
 export interface SessionData {
-	videos?: IVideos;
-	audio?: videoFormat;
 	url: string;
 }
 

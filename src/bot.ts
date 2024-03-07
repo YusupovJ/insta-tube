@@ -1,4 +1,4 @@
-import { Bot, Keyboard, session, webhookCallback } from "grammy";
+import { Bot, session, webhookCallback } from "grammy";
 import { run, sequentialize } from "@grammyjs/runner";
 import dotenv from "dotenv";
 import commandsList from "./commands/commandsList";
@@ -8,8 +8,8 @@ import instagram from "./downloaders/instagram";
 import { autoChatAction } from "@grammyjs/auto-chat-action";
 import { MyContext, SessionData } from "./types";
 import express from "express";
-import qualityMenu from "./menus/qualityMenu";
-import path from "path";
+import youtubeMenu from "./menus/youtubeMenu";
+import { freeStorage } from "@grammyjs/storage-free";
 
 dotenv.config();
 const token = process.env.TELEGRAM_BOT_API as string;
@@ -19,7 +19,7 @@ function initial(): SessionData {
 	return { url: "" };
 }
 
-bot.use(session({ initial }));
+bot.use(session({ initial, storage: freeStorage(bot.token) }));
 bot.use(
 	sequentialize((ctx: any) => {
 		const chat = ctx.chat?.id.toString();
@@ -28,7 +28,7 @@ bot.use(
 	})
 );
 bot.use(autoChatAction());
-bot.use(qualityMenu);
+bot.use(youtubeMenu);
 
 const setCommands = async () => {
 	await bot.api.setMyCommands(commandsList);
