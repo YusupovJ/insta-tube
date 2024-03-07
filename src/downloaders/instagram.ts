@@ -1,10 +1,7 @@
-import { Context } from "grammy";
+import { Context, InputMediaBuilder } from "grammy";
 import { IInstagram } from "../types";
 import axios from "axios";
 import dotenv from "dotenv";
-import sendVideo from "../helpers/sendVideo";
-import sendLink from "../helpers/sendLink";
-import sendPhoto from "../helpers/sendPhoto";
 
 dotenv.config();
 
@@ -23,24 +20,22 @@ const instagram = async (ctx: Context, url: string) => {
 		};
 
 		const response = await axios.request(options);
-		const post = response?.data[0] as IInstagram;
+		const posts = response?.data as IInstagram[];
 
-		if (!post) {
-			await instagram(ctx, url);
-			return;
-		}
+		const medias = posts.map((post, index) => {
+			const method = post.type === "mp4" ? "video" : "photo";
 
-		const caption = `<b>${post.title}</b>\n\n@insta_tube_save_bot`;
-
-		try {
-			if (post.type === "mp4") {
-				await sendVideo(ctx, post.link, caption);
-			} else {
-				await sendPhoto(ctx, post.link, caption);
+			if (!index) {
+				return InputMediaBuilder[method](post.link, {
+					caption: `<b>${post.title}</b>\n\n@insta_tube_save_bot`,
+					parse_mode: "HTML",
+				});
 			}
-		} catch (error) {
-			await sendLink(ctx, post.link, caption, post.thumb);
-		}
+
+			return InputMediaBuilder[method](post.link);
+		});
+
+		await ctx.replyWithMediaGroup(medias);
 	} catch (error) {
 		console.log(error);
 		await ctx.reply("Something went wrong while downloading :(");
